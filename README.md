@@ -35,3 +35,45 @@ Este repositorio se basa en una configuración mínima para trabajar con **React
    ```bash
    git clone https://github.com/tu_usuario/custom-hooks.git
    cd custom-hooks
+
+# useCounter
+
+`useCounter` es un hook personalizado de React que gestiona un contador con funcionalidades para incrementar, decrementar y reiniciar el valor. Es útil en situaciones donde se necesita un contador que se pueda modificar fácilmente desde un componente de React.
+
+## Parámetros
+
+- **`initialValue`** (`number`): El valor inicial del contador. Por defecto es `0`.
+
+## Estado
+
+- **`counter`** (`number`): Es el estado que almacena el valor actual del contador. Se inicializa con `initialValue`.
+
+## Funciones
+
+### `increment(val = 1)`
+
+Incrementa el valor del contador por la cantidad especificada.
+
+- **Parámetros**:
+  - **`val`** (`number`): El valor por el cual se incrementará el contador. Por defecto es `1`.
+
+### `reset()`
+
+Reinicia el valor del contador al valor inicial (`initialValue`).
+
+### `decrement(val = 1, allowNegative = true)`
+
+Decrementa el valor del contador por la cantidad especificada. Puede configurarse para no permitir valores negativos.
+
+- **Parámetros**:
+  - **`val`** (`number`): El valor por el cual se decrementará el contador. Por defecto es `1`.
+  - **`allowNegative`** (`boolean`): Determina si el contador puede tomar valores negativos. Por defecto es `true`. Si es `false` y el contador está en `0`, no se permitirá la reducción.
+
+## Retorno
+
+El hook devuelve un objeto con los siguientes elementos:
+
+- **`counter`**: El valor actual del contador.
+- **`increment`**: La función para incrementar el contador.
+- **`reset`**: La función para reiniciar el contador.
+- **`decrement`**: La función para decrementar el contador.
