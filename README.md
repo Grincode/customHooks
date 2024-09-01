@@ -77,3 +77,135 @@ El hook devuelve un objeto con los siguientes elementos:
 - **`increment`**: La función para incrementar el contador.
 - **`reset`**: La función para reiniciar el contador.
 - **`decrement`**: La función para decrementar el contador.
+  
+
+# useForm
+
+`useForm` es un hook personalizado de React que gestiona el estado de un formulario, permitiendo la manipulación y actualización de los campos del formulario de manera sencilla.
+
+## Parámetros
+
+- **`initialForm`** (`object`): Un objeto que representa el estado inicial del formulario. Por defecto es un objeto vacío `{}`.
+
+## Estado
+
+- **`formState`** (`object`): Es el estado que almacena los valores actuales de los campos del formulario. Se inicializa con `initialForm`.
+
+## Funciones
+
+### `onInputChange({ target })`
+
+Actualiza el estado del formulario cuando cambia el valor de un campo.
+
+- **Parámetros**:
+  - **`target`** (`object`): El elemento del formulario que desencadenó el evento de cambio. Este objeto contiene las propiedades `name` y `value`, que son usadas para actualizar el estado del formulario.
+
+## Retorno
+
+El hook devuelve un objeto con los siguientes elementos:
+
+- **...`formState`**: El estado del formulario desestructurado, proporcionando acceso directo a cada campo.
+- **`onInputChange`**: La función para actualizar los valores del formulario.
+
+## Ejemplo de Uso
+
+```javascript
+import React from 'react';
+import { useForm } from './useForm';
+
+const MyFormComponent = () => {
+    const { name, email, onInputChange } = useForm({
+        name: '',
+        email: ''
+    });
+
+    return (
+        <form>
+            <input 
+                type="text" 
+                name="name" 
+                value={name} 
+                onChange={onInputChange} 
+                placeholder="Nombre" 
+            />
+            <input 
+                type="email" 
+                name="email" 
+                value={email} 
+                onChange={onInputChange} 
+                placeholder="Email" 
+            />
+        </form>
+    );
+};
+
+export default MyFormComponent;
+
+# useFetch
+
+`useFetch` es un hook personalizado de React que facilita la realización de solicitudes HTTP y la gestión de los estados de carga, datos y errores.
+
+## Estado
+
+- **`state`** (`object`): Un objeto que representa el estado de la solicitud HTTP. Contiene las siguientes propiedades:
+  - **`data`** (`any`): Almacena los datos recibidos de la solicitud. Inicialmente es `null`.
+  - **`isLoading`** (`boolean`): Indica si la solicitud está en curso. Inicialmente es `true`.
+  - **`error`** (`any`): Almacena cualquier error que ocurra durante la solicitud. Inicialmente es `null`.
+
+## Funciones
+
+### `fetchData(url, method, bodyData = null)`
+
+Realiza una solicitud HTTP a la URL especificada con el método y los datos proporcionados.
+
+- **Parámetros**:
+  - **`url`** (`string`): La URL a la que se realizará la solicitud. Si no se proporciona, la función no hará nada.
+  - **`method`** (`string`): El método HTTP a utilizar (`GET`, `POST`, `PUT`, `DELETE`, etc.).
+  - **`bodyData`** (`object` | `null`): Los datos que se enviarán en el cuerpo de la solicitud. Por defecto es `null`. Este parámetro solo se usa si el método no es `GET` o `DELETE`.
+
+- **Comportamiento**:
+  - Si la solicitud es exitosa, `data` se actualizará con la respuesta recibida, `isLoading` se establecerá en `false`, y `error` se mantendrá en `null`.
+  - Si ocurre un error durante la solicitud, `error` se actualizará con la información del error, `isLoading` se establecerá en `false`, y `data` se mantendrá en `null`.
+
+## Retorno
+
+El hook devuelve un objeto con los siguientes elementos:
+
+- **`data`**: Los datos obtenidos de la solicitud.
+- **`isLoading`**: Un indicador de si la solicitud está en curso.
+- **`error`**: Cualquier error que haya ocurrido durante la solicitud.
+- **`fetchData`**: La función para realizar la solicitud HTTP.
+
+## Ejemplo de Uso
+
+```javascript
+import React, { useEffect } from 'react';
+import { useFetch } from './useFetch';
+
+const MyComponent = () => {
+    const { data, isLoading, error, fetchData } = useFetch();
+
+    useEffect(() => {
+        fetchData('https://jsonplaceholder.typicode.com/posts', 'GET');
+    }, [fetchData]);
+
+    if (isLoading) {
+        return <p>Cargando...</p>;
+    }
+
+    if (error) {
+        return <p>Error: {error.message}</p>;
+    }
+
+    return (
+        <div>
+            <h1>Data Fetching Example</h1>
+            <pre>{JSON.stringify(data, null, 2)}</pre>
+        </div>
+    );
+};
+
+export default MyComponent;
+
+
+
